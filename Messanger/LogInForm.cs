@@ -10,18 +10,11 @@ using System.Windows.Forms;
 
 namespace Messanger
 {
-    public partial class MainForm : Form
+    public partial class LogInForm : Form
     {
-        string UserName;
-        public MainForm()
+        public LogInForm()
         {
             InitializeComponent();
-            
-        }
-
-        private void loginToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
