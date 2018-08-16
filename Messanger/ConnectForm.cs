@@ -10,12 +10,11 @@ using System.Windows.Forms;
 
 namespace Messanger
 {
-    public partial class MainForm : Form
+    public partial class ConnectForm : Form
     {
-        public MainForm()
+        public ConnectForm()
         {
             InitializeComponent();
-            
         }
     }
 }
