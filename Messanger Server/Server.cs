@@ -16,9 +16,11 @@ namespace Messanger_Server
         Socket ServerSocket;
         Socket FirstClientSocket;
         Socket SecongClientSocked;
+        string FirstClientMessage;
+        string SecondClientMessage;
         public delegate void GetMessageDelegate(string message);
         event GetMessageDelegate GotMessage;
-        int Port
+        public int Port
         {
             get { return ServerPort; }
             set
@@ -30,7 +32,7 @@ namespace Messanger_Server
             }
         }
 
-        MessangerServer()
+        public MessangerServer()
         {
             ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
@@ -42,13 +44,15 @@ namespace Messanger_Server
                     ServerSocket.Bind(new IPEndPoint(IPAddress.Any, ServerPort));
                     Console.WriteLine($"Server started on port {ServerPort}");
                     ServerSocket.Listen(2);
-                        FirstClientSocket = GetConnect(ServerSocket).Result;
-                        SecongClientSocked = GetConnect(ServerSocket).Result;
+                    FirstClientSocket = GetConnect(ServerSocket).Result;
+                    SecongClientSocked = GetConnect(ServerSocket).Result;
                     do
                     {
-                        Thread.Sleep(1000);
-                    } while (FirstClientSocket==null && SecongClientSocked ==null);
+                        Thread.Sleep(100);
+                    } while (FirstClientSocket == null && SecongClientSocked == null);
                     Console.WriteLine("Two clients have connected");
+                    WaitForMessage1(FirstClientSocket);
+                    WaitForMessage2(SecongClientSocked);
                 });
         }
         private async Task<Socket> GetConnect(Socket ListenSocket)
@@ -62,11 +66,30 @@ namespace Messanger_Server
                            return ListenSocket.Accept();
                        });
         }
-        private async void SendMessage(Socket TargetSocket)
+        private async void WaitForMessage1(Socket TargetSocket)
         {
             await Task.Run(() =>
             {
-
+                do
+                {
+                    byte[] buffer = new byte[1024];
+                    TargetSocket.Receive(buffer);
+                    Console.WriteLine(Encoding.ASCII.GetString(buffer));
+                    SecongClientSocked.Send(buffer);
+                } while (IsWorking);
+            });
+        }
+        private async void WaitForMessage2(Socket TargetSocket)
+        {
+            await Task.Run(() =>
+            {
+                do
+                {
+                    byte[] buffer = new byte[1024];
+                    TargetSocket.Receive(buffer);
+                    Console.WriteLine(Encoding.ASCII.GetString(buffer));
+                    FirstClientSocket.Send(buffer);
+                } while (IsWorking);
             });
         }
     }
@@ -74,7 +97,10 @@ namespace Messanger_Server
     {
         static void Main(string[] args)
         {
-
+            MessangerServer server = new MessangerServer();
+            server.Port = 904;
+            server.Start();
+            Console.ReadLine();
         }
     }
 }

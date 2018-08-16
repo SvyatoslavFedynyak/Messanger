@@ -30,8 +30,8 @@
         {
             this.CancelButton = new System.Windows.Forms.Button();
             this.ConnectButton = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.IpTextBox = new System.Windows.Forms.TextBox();
+            this.PortTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -45,6 +45,7 @@
             this.CancelButton.TabIndex = 0;
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // ConnectButton
             // 
@@ -55,22 +56,25 @@
             this.ConnectButton.TabIndex = 1;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = true;
+            this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
             // 
-            // textBox1
+            // IpTextBox
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(83, 34);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(261, 29);
-            this.textBox1.TabIndex = 2;
+            this.IpTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.IpTextBox.Location = new System.Drawing.Point(83, 34);
+            this.IpTextBox.Name = "IpTextBox";
+            this.IpTextBox.Size = new System.Drawing.Size(261, 29);
+            this.IpTextBox.TabIndex = 2;
+            this.IpTextBox.Text = "192.168.88.247";
             // 
-            // textBox2
+            // PortTextBox
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox2.Location = new System.Drawing.Point(83, 104);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(261, 29);
-            this.textBox2.TabIndex = 3;
+            this.PortTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PortTextBox.Location = new System.Drawing.Point(83, 104);
+            this.PortTextBox.Name = "PortTextBox";
+            this.PortTextBox.Size = new System.Drawing.Size(261, 29);
+            this.PortTextBox.TabIndex = 3;
+            this.PortTextBox.Text = "904";
             // 
             // label1
             // 
@@ -99,8 +103,8 @@
             this.ClientSize = new System.Drawing.Size(356, 256);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.PortTextBox);
+            this.Controls.Add(this.IpTextBox);
             this.Controls.Add(this.ConnectButton);
             this.Controls.Add(this.CancelButton);
             this.Name = "ConnectForm";
@@ -114,8 +118,8 @@
 
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button ConnectButton;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox IpTextBox;
+        private System.Windows.Forms.TextBox PortTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
     }
