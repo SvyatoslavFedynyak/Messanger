@@ -23,7 +23,6 @@ namespace Messanger
         public MainForm()
         {
             InitializeComponent();
-
         }
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
@@ -52,11 +51,13 @@ namespace Messanger
         {
             await Task.Run(() =>
             {
+                byte[] buffer = new byte[1024];
                 do
                 {
-                    byte[] buffer = new byte[1024];
                     ClientSocket.Receive(buffer);
-                    ChatTextBox.AppendText($"{UserName}: {Encoding.ASCII.GetString(buffer)}\n"); 
+                    ChatTextBox.SelectionColor = Color.Blue;
+                    ChatTextBox.AppendText($"{Encoding.UTF8.GetString(buffer)}");
+                    ChatTextBox.AppendText(string.Format("\n"));
                 } while (true);
             });
         }
@@ -64,9 +65,8 @@ namespace Messanger
         {
             await Task.Run(() =>
             {
-                byte[] buffer = Encoding.ASCII.GetBytes(MessageTextBox.Text);
+                byte[] buffer = Encoding.UTF8.GetBytes($"{UserName}: {MessageTextBox.Text}");
                 ClientSocket.Send(buffer);
-                ChatTextBox.AppendText($"{UserName}: {MessageTextBox.Text}\n");
                 MessageTextBox.Clear();
             });
         }

@@ -11,13 +11,11 @@ namespace Messanger_Server
 {
     class MessangerServer
     {
+        int MaxClients = 10;
         bool IsWorking = false;
         int ServerPort = 0;
+        Socket[] SocketPull;
         Socket ServerSocket;
-        Socket FirstClientSocket;
-        Socket SecongClientSocked;
-        string FirstClientMessage;
-        string SecondClientMessage;
         public delegate void GetMessageDelegate(string message);
         event GetMessageDelegate GotMessage;
         public int Port
@@ -40,56 +38,60 @@ namespace Messanger_Server
         {
             await Task.Run(() =>
                 {
+                    SocketPull = new Socket[MaxClients];
                     IsWorking = true;
+                    GotMessage += Mailing;
                     ServerSocket.Bind(new IPEndPoint(IPAddress.Any, ServerPort));
                     Console.WriteLine($"Server started on port {ServerPort}");
-                    ServerSocket.Listen(2);
-                    FirstClientSocket = GetConnect(ServerSocket).Result;
-                    SecongClientSocked = GetConnect(ServerSocket).Result;
-                    do
-                    {
-                        Thread.Sleep(100);
-                    } while (FirstClientSocket == null && SecongClientSocked == null);
-                    Console.WriteLine("Two clients have connected");
-                    WaitForMessage1(FirstClientSocket);
-                    WaitForMessage2(SecongClientSocked);
+                    ServerSocket.Listen(MaxClients);
+                    ListenForConnections(ServerSocket);
                 });
         }
-        private async Task<Socket> GetConnect(Socket ListenSocket)
-        {
-            return await Connect(ListenSocket);
-        }
-        private Task<Socket> Connect(Socket ListenSocket)
-        {
-            return Task.Run(() =>
-                       {
-                           return ListenSocket.Accept();
-                       });
-        }
-        private async void WaitForMessage1(Socket TargetSocket)
+        private async void ListenForConnections(Socket ListenSocket)
         {
             await Task.Run(() =>
             {
                 do
                 {
-                    byte[] buffer = new byte[1024];
-                    TargetSocket.Receive(buffer);
-                    Console.WriteLine(Encoding.ASCII.GetString(buffer));
-                    SecongClientSocked.Send(buffer);
+                    for (int i = 0; i < MaxClients; i++)
+                    {
+                        if (SocketPull[i] == null)
+                        {
+                            SocketPull[i] = ListenSocket.Accept();
+                            Console.WriteLine("Client connected");
+                            ListenForMessage(i);
+                            break;
+                        }
+                    }
                 } while (IsWorking);
             });
         }
-        private async void WaitForMessage2(Socket TargetSocket)
+        private async void ListenForMessage(int NumberInPull)
         {
             await Task.Run(() =>
             {
+                byte[] buffer = new byte[1024];
                 do
                 {
-                    byte[] buffer = new byte[1024];
-                    TargetSocket.Receive(buffer);
-                    Console.WriteLine(Encoding.ASCII.GetString(buffer));
-                    FirstClientSocket.Send(buffer);
-                } while (IsWorking);
+                    SocketPull[NumberInPull].Receive(buffer);
+                    GotMessage?.Invoke(Encoding.UTF8.GetString(buffer));
+
+                } while (SocketPull[NumberInPull] != null);
+            });
+
+        }
+        private async void Mailing(string message)
+        {
+            await Task.Run(() =>
+            {
+                byte[] buffer = Encoding.UTF8.GetBytes(message);
+                foreach (Socket item in SocketPull)
+                {
+                    if (item != null)
+                    {
+                        item.Send(buffer);
+                    }
+                }
             });
         }
     }

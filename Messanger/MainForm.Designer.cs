@@ -28,23 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ChatTextBox = new System.Windows.Forms.TextBox();
             this.SendButton = new System.Windows.Forms.Button();
             this.MessageTextBox = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChatTextBox = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // ChatTextBox
-            // 
-            this.ChatTextBox.Location = new System.Drawing.Point(30, 42);
-            this.ChatTextBox.Multiline = true;
-            this.ChatTextBox.Name = "ChatTextBox";
-            this.ChatTextBox.Size = new System.Drawing.Size(434, 334);
-            this.ChatTextBox.TabIndex = 0;
             // 
             // SendButton
             // 
@@ -59,6 +51,7 @@
             // 
             // MessageTextBox
             // 
+            this.MessageTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MessageTextBox.Location = new System.Drawing.Point(30, 393);
             this.MessageTextBox.Multiline = true;
             this.MessageTextBox.Name = "MessageTextBox";
@@ -87,29 +80,38 @@
             // loginToolStripMenuItem
             // 
             this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            this.loginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.loginToolStripMenuItem.Text = "Log In";
             this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
             // 
             // connectToolStripMenuItem
             // 
             this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            this.connectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.connectToolStripMenuItem.Text = "Connect";
             this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
+            // 
+            // ChatTextBox
+            // 
+            this.ChatTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ChatTextBox.Location = new System.Drawing.Point(30, 39);
+            this.ChatTextBox.Name = "ChatTextBox";
+            this.ChatTextBox.Size = new System.Drawing.Size(434, 328);
+            this.ChatTextBox.TabIndex = 4;
+            this.ChatTextBox.Text = "";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(493, 487);
+            this.Controls.Add(this.ChatTextBox);
             this.Controls.Add(this.MessageTextBox);
             this.Controls.Add(this.SendButton);
-            this.Controls.Add(this.ChatTextBox);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Messanger";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -118,14 +120,13 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox ChatTextBox;
         private System.Windows.Forms.Button SendButton;
         private System.Windows.Forms.TextBox MessageTextBox;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem mainToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
+        private System.Windows.Forms.RichTextBox ChatTextBox;
     }
 }
 
