@@ -31,6 +31,7 @@ namespace Messanger
             if (MainLogInForm.ShowDialog() == DialogResult.OK)
             {
                 UserName = MainLogInForm.GetData;
+                Text = UserName;
             }
 
         }
@@ -69,6 +70,14 @@ namespace Messanger
                 ClientSocket.Send(buffer);
                 MessageTextBox.Clear();
             });
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (ClientSocket != null)
+            {
+                ClientSocket.Disconnect(false);
+            }
         }
     }
 }
